@@ -4,6 +4,8 @@ import org.apache.commons.collections4.CollectionUtils;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Buy one get one free promotion handler class
@@ -25,14 +27,27 @@ public class BuyOneGetOneFreeDiscount {
             return discountTotal;
         }
 
-        if (itemsList.size() >= 2) {
-            discountTotal = new BigDecimal(0.20).setScale(2, BigDecimal.ROUND_HALF_UP);
+        Map<String, Long> getMapOfAllCountsOfItems = getMapOfAllCountsOfItems(itemsList);
 
-            if (itemsList.size() >= 4) {
-                discountTotal = discountTotal.add(new BigDecimal(0.20)).setScale(2, BigDecimal.ROUND_HALF_UP);
+        for(Map.Entry<String, Long> entrySet : getMapOfAllCountsOfItems.entrySet()) {
+            if (entrySet.getValue() >= 2) {
+                Long numberOfDiscounts = entrySet.getValue() / 2;
+                for(Item item : itemsList) {
+                    if (item.equals(entrySet.getKey())) {
+                        discountTotal = discountTotal.multiply(new BigDecimal(numberOfDiscounts))
+                                .setScale(2, BigDecimal.ROUND_HALF_UP);
+                        break;
+                    }
+                }
             }
         }
 
         return discountTotal;
+    }
+
+    private Map<String, Long> getMapOfAllCountsOfItems(List<Item> lst){
+        return lst.stream()
+                .collect(Collectors.groupingBy(item -> item.getItemId(),
+                        Collectors.counting()));
     }
 }

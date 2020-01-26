@@ -1,5 +1,7 @@
 import kata.supermarket.BuyOneGetOneFreeDiscount;
 import kata.supermarket.Item;
+import kata.supermarket.ItemByUnit;
+import kata.supermarket.Product;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -77,15 +79,39 @@ public class BuyOneGetOneFreeDiscountTest {
     }
 
     @Test
-    public void applyDiscountWhenTwoDifferentItemsArePassed() {
+    public void dontApplyDiscountWhenTwoDifferentItemsArePassed() {
         Item firstItem = Mockito.mock(Item.class);
         Mockito.when(firstItem.price()).thenReturn(new BigDecimal(0.20));
+        Mockito.when(firstItem.getItemId()).thenReturn("Crisps");
         Item secondItem = Mockito.mock(Item.class);
         Mockito.when(firstItem.price()).thenReturn(new BigDecimal(0.30));
+        Mockito.when(firstItem.getItemId()).thenReturn("Chocolates");
 
         List<Item> itemsList = new ArrayList<Item>();
         itemsList.add(firstItem);
         itemsList.add(secondItem);
+
+        Assert.assertEquals(new BigDecimal(0.0).setScale(2, BigDecimal.ROUND_HALF_UP), buyOneGetOneFreeDiscount.applyDiscount(itemsList));
+    }
+
+    @Test
+    public void applyDiscountWhenTwoSameAndOneDifferentMixedItemsArePassed() {
+        Item firstItem = Mockito.mock(Item.class);
+        Mockito.when(firstItem.price()).thenReturn(new BigDecimal(0.20));
+        Mockito.when(firstItem.getItemId()).thenReturn("Crisps");
+
+        Item secondItem = Mockito.mock(Item.class);
+        Mockito.when(firstItem.price()).thenReturn(new BigDecimal(0.30));
+        Mockito.when(firstItem.getItemId()).thenReturn("Chocolates");
+
+        Item thirdItem = Mockito.mock(Item.class);
+        Mockito.when(thirdItem.price()).thenReturn(new BigDecimal(0.20));
+        Mockito.when(thirdItem.getItemId()).thenReturn("Crisps");
+
+        List<Item> itemsList = new ArrayList<Item>();
+        itemsList.add(firstItem);
+        itemsList.add(secondItem);
+        itemsList.add(thirdItem);
 
         Assert.assertEquals(new BigDecimal(0.0).setScale(2, BigDecimal.ROUND_HALF_UP), buyOneGetOneFreeDiscount.applyDiscount(itemsList));
     }
