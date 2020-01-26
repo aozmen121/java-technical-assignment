@@ -113,6 +113,6 @@ public class BuyOneGetOneFreeDiscountTest {
         itemsList.add(secondItem);
         itemsList.add(thirdItem);
 
-        Assert.assertEquals(new BigDecimal(0.0).setScale(2, BigDecimal.ROUND_HALF_UP), buyOneGetOneFreeDiscount.applyDiscount(itemsList));
+        Assert.assertEquals(new BigDecimal(0.20).setScale(2, BigDecimal.ROUND_HALF_UP), buyOneGetOneFreeDiscount.applyDiscount(itemsList));
     }
 }
