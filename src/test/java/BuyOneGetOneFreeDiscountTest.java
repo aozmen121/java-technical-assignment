@@ -29,9 +29,12 @@ public class BuyOneGetOneFreeDiscountTest {
     @Test
     public void returnZeroDiscountWhenOneItemPassed() {
         Item firstItem = Mockito.mock(Item.class);
+        List<Item> itemsList = new ArrayList<>();
+        itemsList.add(firstItem);
+
         Mockito.when(firstItem.price()).thenReturn(new BigDecimal(0.20));
 
-        Assert.assertEquals(BigDecimal.ZERO, buyOneGetOneFreeDiscount.applyDiscount(firstItem));
+        Assert.assertEquals(BigDecimal.ZERO, buyOneGetOneFreeDiscount.applyDiscount(itemsList));
     }
 
     @Test
