@@ -19,14 +19,20 @@ public class BuyOneGetOneFreeDiscount {
      */
     public BigDecimal applyDiscount(List<Item> itemsList) {
 
+        BigDecimal discountTotal = BigDecimal.ZERO;
+
         if (CollectionUtils.isEmpty(itemsList)) {
-            return BigDecimal.ZERO;
+            return discountTotal;
         }
 
         if (itemsList.size() >= 2) {
-            return new BigDecimal(0.20).setScale(2, BigDecimal.ROUND_HALF_UP);
+            discountTotal = new BigDecimal(0.20).setScale(2, BigDecimal.ROUND_HALF_UP);
         }
 
-        return BigDecimal.ZERO;
+        if (itemsList.size() >= 4) {
+            discountTotal = discountTotal.add(new BigDecimal(0.20)).setScale(2, BigDecimal.ROUND_HALF_UP);
+        }
+
+        return discountTotal;
     }
 }
