@@ -27,10 +27,10 @@ public class BuyOneGetOneFreeDiscount {
 
         if (itemsList.size() >= 2) {
             discountTotal = new BigDecimal(0.20).setScale(2, BigDecimal.ROUND_HALF_UP);
-        }
 
-        if (itemsList.size() >= 4) {
-            discountTotal = discountTotal.add(new BigDecimal(0.20)).setScale(2, BigDecimal.ROUND_HALF_UP);
+            if (itemsList.size() >= 4) {
+                discountTotal = discountTotal.add(new BigDecimal(0.20)).setScale(2, BigDecimal.ROUND_HALF_UP);
+            }
         }
 
         return discountTotal;
