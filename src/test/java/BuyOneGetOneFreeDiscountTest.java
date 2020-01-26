@@ -76,4 +76,17 @@ public class BuyOneGetOneFreeDiscountTest {
         Assert.assertEquals(new BigDecimal(0.40).setScale(2, BigDecimal.ROUND_HALF_UP), buyOneGetOneFreeDiscount.applyDiscount(itemsList));
     }
 
+    @Test
+    public void applyDiscountWhenTwoDifferentItemsArePassed() {
+        Item firstItem = Mockito.mock(Item.class);
+        Mockito.when(firstItem.price()).thenReturn(new BigDecimal(0.20));
+        Item secondItem = Mockito.mock(Item.class);
+        Mockito.when(firstItem.price()).thenReturn(new BigDecimal(0.30));
+
+        List<Item> itemsList = new ArrayList<Item>();
+        itemsList.add(firstItem);
+        itemsList.add(secondItem);
+
+        Assert.assertEquals(new BigDecimal(0.0).setScale(2, BigDecimal.ROUND_HALF_UP), buyOneGetOneFreeDiscount.applyDiscount(itemsList));
+    }
 }
