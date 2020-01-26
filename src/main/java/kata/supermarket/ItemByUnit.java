@@ -11,7 +11,7 @@ public class ItemByUnit implements Item {
         this.product = product;
     }
 
-    ItemByUnit(final Product product, String id) {
+    public ItemByUnit(final Product product, String id) {
         this.product = product;
         this.id = id;
     }
