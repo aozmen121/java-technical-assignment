@@ -8,11 +8,6 @@ public class ItemByWeight implements Item {
     private final BigDecimal weightInKilos;
     private String id;
 
-    ItemByWeight(final WeighedProduct product, final BigDecimal weightInKilos) {
-        this.product = product;
-        this.weightInKilos = weightInKilos;
-    }
-
     ItemByWeight(final WeighedProduct product, final BigDecimal weightInKilos, String id) {
         this.product = product;
         this.weightInKilos = weightInKilos;

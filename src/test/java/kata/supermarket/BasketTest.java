@@ -29,7 +29,9 @@ class BasketTest {
                 aSingleItemPricedPerUnit(),
                 multipleItemsPricedPerUnit(),
                 aSingleItemPricedByWeight(),
-                multipleItemsPricedByWeight()
+                multipleItemsPricedByWeight(),
+                multipleItemPricedPerUnitWithDiscountApplied(),
+                multipleItemMixedWithDiscountApplied()
         );
     }
 
@@ -52,16 +54,26 @@ class BasketTest {
         return Arguments.of("a single item priced per unit", "0.49", Collections.singleton(aPintOfMilk()));
     }
 
+    private static Arguments multipleItemPricedPerUnitWithDiscountApplied() {
+        return Arguments.of("Multiple same item priced per unit with discount applied", "1.55",
+                Arrays.asList(aPackOfDigestives(), aPackOfDigestives()));
+    }
+
+    private static Arguments multipleItemMixedWithDiscountApplied() {
+        return Arguments.of("Multiple same item mixed with discount applied", "2.04",
+                Arrays.asList(aPackOfDigestives(), aPintOfMilk(), aPackOfDigestives()));
+    }
+
     private static Arguments noItems() {
         return Arguments.of("no items", "0.00", Collections.emptyList());
     }
 
     private static Item aPintOfMilk() {
-        return new Product(new BigDecimal("0.49")).oneOf();
+        return new Product(new BigDecimal("0.49")).oneOf("Milk");
     }
 
     private static Item aPackOfDigestives() {
-        return new Product(new BigDecimal("1.55")).oneOf();
+        return new Product(new BigDecimal("1.55")).oneOf("Digestives");
     }
 
     private static WeighedProduct aKiloOfAmericanSweets() {
@@ -69,7 +81,7 @@ class BasketTest {
     }
 
     private static Item twoFiftyGramsOfAmericanSweets() {
-        return aKiloOfAmericanSweets().weighing(new BigDecimal(".25"));
+        return aKiloOfAmericanSweets().weighing(new BigDecimal(".25"), "Sweets");
     }
 
     private static WeighedProduct aKiloOfPickAndMix() {
@@ -77,6 +89,6 @@ class BasketTest {
     }
 
     private static Item twoHundredGramsOfPickAndMix() {
-        return aKiloOfPickAndMix().weighing(new BigDecimal(".2"));
+        return aKiloOfPickAndMix().weighing(new BigDecimal(".2"), "PickAndMix");
     }
 }
